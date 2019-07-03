@@ -32,7 +32,18 @@ const initState = {
 };
 
 const projectReducer = (state = initState, action) => {
-  return state;
+  switch (action.type) {
+    case "CREATE_PROJECT":
+      return {
+        ...state,
+        projects: [
+          ...state.projects,
+          { id: state.projects.length + 1, ...action.project }
+        ]
+      };
+    default:
+      return state;
+  }
 };
 
 export default projectReducer;
