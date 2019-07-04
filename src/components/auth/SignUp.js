@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { firebaseConnect } from "react-redux-firebase";
-import { compose } from "redux";
 import { Redirect } from "react-router-dom";
 
 export class SignUp extends Component {
@@ -23,6 +21,7 @@ export class SignUp extends Component {
     console.log(this.state);
   };
   render() {
+    console.log(this.props);
     const { auth } = this.props;
     if (auth.uid) {
       return <Redirect to="/" />;
@@ -68,10 +67,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({});
 
-export default compose(
-  firebaseConnect(),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
 )(SignUp);
