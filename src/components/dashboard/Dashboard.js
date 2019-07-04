@@ -42,6 +42,6 @@ export default compose(
   // whenever first load or data changes in the collect this induces the firestore reducer to sync/update the state to reflect the changes
   firestoreConnect([
     { collection: "projects", orderBy: ["createdAt", "desc"] },
-    { collection: "notifications", limit: 3, orderBy: [("time": "desc")] }
+    { collection: "notifications", limit: 3, orderBy: ["time", "desc"] }
   ])
 )(Dashboard);
