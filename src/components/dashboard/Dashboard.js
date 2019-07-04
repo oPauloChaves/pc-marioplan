@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { compose } from "redux";
+import { firestoreConnect } from "react-redux-firebase";
 import Notifications from "./Notifications";
 import ProjectList from "../project/ProjectList";
 
@@ -23,8 +25,13 @@ class Dashboard extends Component {
 
 const mapStateToProps = state => {
   return {
-    projects: state.projects.projects
+    projects: state.firestore.ordered.projects
   };
 };
 
-export default connect(mapStateToProps)(Dashboard);
+export default compose(
+  connect(mapStateToProps),
+  // when this component is active the collection I want to list to is the `projects` collection
+  // whenever first load or data changes in the collect this induces the firestore reducer to sync/update the state to reflect the changes
+  firestoreConnect([{ collection: "projects", orderBy: ["createdAt", "desc"] }])
+)(Dashboard);
