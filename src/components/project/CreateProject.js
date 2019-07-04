@@ -17,7 +17,11 @@ export class CreateProject extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    this.props.createProject(this.state);
+
+    const { props, state } = this;
+    props.createProject(state);
+
+    props.history.push("/");
   };
 
   render() {
