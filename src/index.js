@@ -43,13 +43,18 @@ const rrfProps = {
   createFirestoreInstance // Create firestore instead of craete it in fbConfig.js
 };
 
-ReactDOM.render(
-  <Provider store={store}>
-    <ReactReduxFirebaseProvider {...rrfProps}>
-      <App />
-    </ReactReduxFirebaseProvider>
-  </Provider>,
-  document.getElementById("root")
-);
-
-serviceWorker.unregister();
+// Don't render to the DOM until firebase auth is ready
+// https://github.com/prescottprue/react-redux-firebase/issues/631
+let unsubscribe = firebase.auth().onAuthStateChanged(user => {
+  console.log(user);
+  ReactDOM.render(
+    <Provider store={store}>
+      <ReactReduxFirebaseProvider {...rrfProps}>
+        <App />
+      </ReactReduxFirebaseProvider>
+    </Provider>,
+    document.getElementById("root")
+  );
+  serviceWorker.unregister();
+  unsubscribe();
+});
