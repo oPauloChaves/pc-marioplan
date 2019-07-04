@@ -11,3 +11,12 @@ export const signIn = ({ credentials, firebase }) => {
       });
   };
 };
+
+export const signOut = firebase => dispatch => {
+  firebase
+    .auth()
+    .signOut()
+    .then(() => {
+      dispatch({ type: "SIGNOUT_SUCCESS" });
+    });
+};
