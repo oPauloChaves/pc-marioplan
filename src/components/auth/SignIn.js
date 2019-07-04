@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { compose } from "redux";
+import { firebaseConnect } from "react-redux-firebase";
 import { Redirect } from "react-router-dom";
 import { signIn } from "../../store/actions/authActions";
 
@@ -87,7 +89,14 @@ const mapDispatchToProps = dispatch => ({
   signIn: authData => dispatch(signIn(authData))
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+// We need firebaseConnect function to provide to this component
+// firebase object with auth method.
+// You can find more information on the link below
+// http://docs.react-redux-firebase.com/history/v3.0.0/docs/auth.html
+export default compose(
+  firebaseConnect(),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
 )(SignIn);
